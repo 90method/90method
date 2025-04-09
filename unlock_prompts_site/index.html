@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unlock Elite Prompts</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #0e0e0e;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #ff4081;
+      font-size: 2rem;
+    }
+
+    textarea {
+      width: 90%;
+      max-width: 600px;
+      height: 120px;
+      margin: 20px 0;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      resize: none;
+    }
+
+    button {
+      padding: 10px 25px;
+      font-size: 1rem;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 30px;
+      max-width: 600px;
+      white-space: pre-wrap;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Unlock Elite ChatGPT Image Prompts</h1>
+  <p>Enter your idea below and unlock the best image prompt ChatGPT can generate.</p>
+
+  <textarea id="ideaInput" placeholder="Enter your image idea here..."></textarea>
+  <button onclick="generatePrompt()">Generate Prompt</button>
+
+  <div class="output" id="outputBox"></div>
+
+  <script>
+    async function generatePrompt() {
+      const idea = document.getElementById("ideaInput").value;
+      const outputBox = document.getElementById("outputBox");
+      outputBox.innerText = "Generating...";
+
+      const response = await fetch("/.netlify/functions/generate-prompt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idea })
+      });
+
+      const data = await response.json();
+      outputBox.innerText = data.prompt || "Something went wrong.";
+    }
+  </script>
+</body>
+</html>
